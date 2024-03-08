@@ -15,7 +15,7 @@ The YouTube Chatbot is an AI-powered application that transcribes YouTube videos
 
 To get started with the YouTube Chatbot, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/xtrahue/youtube-chatbot.git`
+1. Clone the repository: `git clone https://github.com/xtrahue/YouTube-ChatBot.git`
 2. Install the required packages: `pip install -r requirements.txt`
 3. Set up your API keys and credentials for the Whisper, Gradient, and Groq models.
 4. Run the application: `streamlit run app.py`
