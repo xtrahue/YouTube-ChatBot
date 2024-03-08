@@ -42,3 +42,11 @@ The YouTube Chatbot is open-source and licensed under the MIT License.
 * Gradient: A platform for building and deploying machine learning models
 * Groq: A large language model for generating responses to user queries
 * Streamlit: An open-source app framework for machine learning and data science applications.
+
+##Demo
+![image](https://github.com/xtrahue/YouTube-ChatBot/assets/108055347/b62fb7e4-62ca-495d-9172-3af5415755c8)
+![image](https://github.com/xtrahue/YouTube-ChatBot/assets/108055347/0a230110-797c-454c-a6d6-8fe145ed62a5)
+![image](https://github.com/xtrahue/YouTube-ChatBot/assets/108055347/c802648f-6d70-4b2d-b010-1b8ac3007d6e)
+
+
+
