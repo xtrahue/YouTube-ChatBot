@@ -13,6 +13,7 @@ from llama_index.core import SimpleDirectoryReader
 import torch
 from dotenv import load_dotenv
 from llama_index.llms.groq import Groq
+import time
 
 # Initialize session state
 
@@ -36,30 +37,57 @@ model = whisper.load_model("small")
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 
+# @st.cache_resource
+# def download_audio(link):
+#     if os.path.exists('audio.mp3'):
+#         os.remove('audio.mp3')
+#     # st.session_state.transcription_result=""
+#     with yt_dlp.YoutubeDL({'extract_audio': True,
+#                            'format': 'bestaudio',
+#                            'outtmpl': 'audio.mp3'}) as video:
+#         info_dict = video.extract_info(link, download=True)
+#         st.session_state.video_title = info_dict['title']
+#         video_url = info_dict['webpage_url']
+#         video.download(link)
+#     return st.session_state.video_title, video_url
+
+
 @st.cache_resource
 def download_audio(link):
-    if os.path.exists('audio.mp3'):
-        os.remove('audio.mp3')
-    # st.session_state.transcription_result=""
-    with yt_dlp.YoutubeDL({'extract_audio': True,
-                           'format': 'bestaudio',
-                           'outtmpl': 'audio.mp3'}) as video:
-        info_dict = video.extract_info(link, download=True)
-        st.session_state.video_title = info_dict['title']
-        video_url = info_dict['webpage_url']
-        video.download(link)
+    with st.spinner('Downloading audio...'):
+        if os.path.exists('audio.mp3'):
+            os.remove('audio.mp3')
+        # st.session_state.transcription_result=""
+        with yt_dlp.YoutubeDL({'extract_audio': True,
+                               'format': 'bestaudio',
+                               'outtmpl': 'audio.mp3'}) as video:
+            info_dict = video.extract_info(link, download=True)
+            st.session_state.video_title = info_dict['title']
+            video_url = info_dict['webpage_url']
+            video.download(link)
+        time.sleep(0.1)  # add a delay to allow the spinner to show up
     return st.session_state.video_title, video_url
 
 
-@st.cache_resource
 def transcribe(_model, audio):
-    if os.path.exists('text_files/transcription.txt'):
-        os.remove('text_files/transcription.txt')
+    with st.spinner('Generating Transcription....'):
+        # Remove existing transcription.txt file if it exists
+        if os.path.exists('text_files/transcription.txt'):
+            os.remove('text_files/transcription.txt')
 
-    result = _model.transcribe(audio)
-    with open("text_files/transcription.txt", 'w') as f:
-        f.write(result["text"])
-    st.session_state.transcription_result = result["text"]
+        # Transcribe audio file
+        result = _model.transcribe(audio)
+
+        # Save transcription to text_files/transcription.txt
+        with open("text_files/transcription.txt", 'w') as f:
+            f.write(result["text"])
+
+        # Set the transcription result in session state
+        st.session_state.transcription_result = result["text"]
+
+        # Wait for a short period to allow the spinner to update
+        time.sleep(0.1)
+
     return 1
 
 
