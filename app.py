@@ -36,22 +36,6 @@ if 'video_title' not in st.session_state:
 model = whisper.load_model("small")
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-
-# @st.cache_resource
-# def download_audio(link):
-#     if os.path.exists('audio.mp3'):
-#         os.remove('audio.mp3')
-#     # st.session_state.transcription_result=""
-#     with yt_dlp.YoutubeDL({'extract_audio': True,
-#                            'format': 'bestaudio',
-#                            'outtmpl': 'audio.mp3'}) as video:
-#         info_dict = video.extract_info(link, download=True)
-#         st.session_state.video_title = info_dict['title']
-#         video_url = info_dict['webpage_url']
-#         video.download(link)
-#     return st.session_state.video_title, video_url
-
-
 @st.cache_resource
 def download_audio(link):
     with st.spinner('Downloading audio...'):
